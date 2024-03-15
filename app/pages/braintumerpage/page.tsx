@@ -54,7 +54,7 @@ export default function BrainTumor() {
     segmentationFunction();
   }, [roboflowResponse]);
 
-  function onFileChange(event : any) {
+  function onFileChange(event: any) {
     setUserSelectedFile(event.target.files[0]);
     console.log(setUserSelectedFile);
     // Reset coordinates when a new file is selected
@@ -82,7 +82,7 @@ export default function BrainTumor() {
         toast.info("request sent to segmentation server ");
         console.log(response.data);
         setRoboflowResponse(JSON.stringify(response.data));
-        
+
       } else {
         toast.error("something went wrong with the model");
       }
@@ -101,13 +101,13 @@ export default function BrainTumor() {
 
     // Add an event listener to handle the completion of the read operation
     reader.onload = function () {
-      let base64Data   = reader.result;
-   
+      let base64Data = reader.result;
+
       if (!base64Data) {
         toast.error("Please select a valid image file.");
       } else {
         // @ts-ignore
-        base64Data = base64Data.replace(/^data:image\/[a-z]+;base64,/, "") ;
+        base64Data = base64Data.replace(/^data:image\/[a-z]+;base64,/, "");
         setLeftImage(base64Data);
         setInference(null);
       }
@@ -118,8 +118,10 @@ export default function BrainTumor() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-300 ">
-      <div className="flex flex-row justify-between items-stretch py-10 px-10 space-x-20 bg-">
+    <div className="flex flex-col h-screen bg-gray-300 " style={{
+      backgroundImage: "url('https://scx2.b-cdn.net/gfx/news/hires/2018/neuralnetwork.jpg')"
+    }} >
+      <div className="flex flex-row justify-between items-stretch py-10 px-10 space-x-20 ">
         <div className="w-1/2 flex flex-col text-center justify-center space-y-3">
           <div className="rounded-lg border-black border-4 text-xl bold font-mono font-bold bg-slate-100">
             <h1>findings</h1>
@@ -153,9 +155,11 @@ export default function BrainTumor() {
           type="file"
           onChange={onFileChange}
         />
-        <Button   variant={"default"} onClick={onFileUpload}>Upload Image</Button>
-        <Button  variant={"default"} onClick={onProcess}>Process Image</Button>
-      
+        <Button variant={"default"} onClick={onFileUpload}> <h1 className="text-xl">Upload Image
+        </h1> </Button>
+        <Button variant={"default"} onClick={onProcess}><h1 className="text-xl">Process Image
+        </h1></Button>
+
       </div>
     </div>
   );
