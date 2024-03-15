@@ -1,9 +1,10 @@
-import Image from "next/image";
 
+import Link  from "next/link";
+import IndexPage from "./pages/LandingPage/page";
 export default function Home() {
   return (
   <main>
-    dgdgdg
-  </main>
+    <IndexPage></IndexPage>
+ </main>
   );
 }
