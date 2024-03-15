@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const api_key = "MDUmhShkcQTpnD7H6ZtL"
-const roboURL = "https://detect.roboflow.com/gojo/1"
+const roboURL = "https://detect.roboflow.com/alzheimer-disease-detection-yolov5/1"
 const segmentationURL = "https://xth9xnbt-3000.inc1.devtunnels.ms/"
 
 /**

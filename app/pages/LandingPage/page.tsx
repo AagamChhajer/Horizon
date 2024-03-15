@@ -4,9 +4,7 @@ const IndexPage = () => (
 
     <Hero />
     <Services/>
-
     
-   
   </Layout>
 )
 
