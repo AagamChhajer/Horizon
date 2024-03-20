@@ -16,7 +16,7 @@ const segmentationURL = "https://xth9xnbt-3000.inc1.devtunnels.ms/"
  * @param roboURL The URL for the model endpoint.
  * @param ngrokURL The URL for the segmentation server.
  */
-export default function BrainTumor() {
+export default function alzhimer() {
   //defining the states
   const [userSelectedFile, setUserSelectedFile] = useState(null);
   const [leftImage, setLeftImage] = useState<any>(null);

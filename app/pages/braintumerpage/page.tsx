@@ -37,7 +37,7 @@ export default function BrainTumor() {
           url: segmentationURL,
           data: {
             base64: leftImage,
-            disease: "Alzheimer",
+            disease: "Brain Tumor",
             predictions: roboflowResponse,
           },
           headers: {
