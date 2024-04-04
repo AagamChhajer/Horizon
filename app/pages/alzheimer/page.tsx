@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const api_key = "MDUmhShkcQTpnD7H6ZtL"
 const roboURL = "https://detect.roboflow.com/alzheimer-disease-detection-yolov5/1"
-const segmentationURL = "https://2bt79xdd-3000.inc1.devtunnels.ms/"
+const segmentationURL = "https://l02lxkvf-5000.inc1.devtunnels.ms/"
 
 /**
  * BrainTumor component for processing brain tumor images.
