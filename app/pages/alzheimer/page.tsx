@@ -77,6 +77,10 @@ export default function alzhimer() {
         },
       });
 
+
+
+      
+
       if (response.data) {
         toast.success("received Model Response");
         toast.info("request sent to segmentation server ");
