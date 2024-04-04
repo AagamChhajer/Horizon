@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const api_key = "MDUmhShkcQTpnD7H6ZtL"
 const roboURL = "https://detect.roboflow.com/gojo/1"
-const segmentationURL = "https://xth9xnbt-3000.inc1.devtunnels.ms/"
+const segmentationURL = "https://2bt79xdd-3000.inc1.devtunnels.ms/"
 
 /**
  * BrainTumor component for processing brain tumor images.
@@ -118,9 +118,7 @@ export default function BrainTumor() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-300 " style={{
-      backgroundImage: "url('https://scx2.b-cdn.net/gfx/news/hires/2018/neuralnetwork.jpg')"
-    }} >
+    <div className="flex flex-col h-screen bg-gray-400 "  >
       <div className="flex flex-row justify-between items-stretch py-10 px-10 space-x-20 ">
         <div className="w-1/2 flex flex-col text-center justify-center space-y-3">
           <div className="rounded-lg border-black border-4 text-xl bold font-mono font-bold bg-slate-100">
