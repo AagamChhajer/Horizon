@@ -14,6 +14,7 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import Live from "./live"
 
 
 
@@ -22,30 +23,34 @@ export function Topbar() {
 
         <div className="bg-primary flex justify-around py-4 px-20 ">
             <a href="/"> <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-2xl text-white">
-      RadixAI: Your Diagonosis partner
-    </h1></a>
-           
+                RadixAI: Your Diagonosis partner
+            </h1></a>
+
             <NavigationMenu>
                 <NavigationMenuList>
                     <NavigationMenuItem>
                         <NavigationMenuTrigger>Select services</NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                           
+
                                 <ListItem href="/pages/braintumerpage" title="Brain Tumer">
                                     Detect Brain Tumer with LLMS and Yolov8 Model
                                 </ListItem>
                                 <ListItem href="/pages/alzheimer" title="Alzheimer">
                                     Detect Alzheimer with LLMS and Yolov8 Model.
                                 </ListItem>
-                                
+
                             </ul>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
-                  
-                
+
+
                 </NavigationMenuList>
             </NavigationMenu>
+            <div className="animate-pulse">
+                <Live></Live>
+            </div>
+
 
         </div>
     )

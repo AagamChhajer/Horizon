@@ -1,27 +1,30 @@
 
 "use client"
+import Textskeleton from "@/components/textskeleton";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Progressbar from "@/components/progressbar";
 const api_key = "MDUmhShkcQTpnD7H6ZtL"
 const roboURL = "https://detect.roboflow.com/gojo/1"
-const segmentationURL = "https://l02lxkvf-5000.inc1.devtunnels.ms/"
+const segmentationURL = "https://l02lxkvf-3000.inc1.devtunnels.ms/"
+const initialColorObject = {
+  c1: "red-400",
+  c2: "red-400",
+  c3: "red-400",
+  c4: "red-400",
+};
 
-/**
- * BrainTumor component for processing brain tumor images.
- * 
- * @param api_key The API key for accessing the model.
- * @param roboURL The URL for the model endpoint.
- * @param ngrokURL The URL for the segmentation server.
- */
 export default function BrainTumor() {
   //defining the states
   const [userSelectedFile, setUserSelectedFile] = useState(null);
+  const [colorObject, setColorObject] = useState(initialColorObject);
   const [leftImage, setLeftImage] = useState<any>(null);
-  const [inference, setInference] = useState<any>("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
+  const [inference, setInference] = useState<any>("The diagnosis result will be displayed here after the image processing is completed. Once the analysis is done, you will see detailed findings and insights regarding the brain tumor.");
   const [roboflowResponse, setRoboflowResponse] = useState<any>(null);
+  const [skeleton, setSkeleton] = useState<any>(<Textskeleton></Textskeleton>);
 
   useEffect(() => {
     async function segmentationFunction() {
@@ -31,6 +34,8 @@ export default function BrainTumor() {
         );
       } else {
         console.log("segmentation function ran");
+
+
 
         const response = await axios({
           method: "POST",
@@ -44,6 +49,13 @@ export default function BrainTumor() {
             "Content-Type": "application/json",
           },
         });
+        setColorObject({
+          c1: "green-400",
+          c2: "green-400",
+          c3: "green-400",
+          c4: "green-400",
+
+        })
 
         console.log(response.data);
         setLeftImage(response.data.base64);
@@ -54,10 +66,20 @@ export default function BrainTumor() {
     segmentationFunction();
   }, [roboflowResponse]);
 
+
+
+
   function onFileChange(event: any) {
     setUserSelectedFile(event.target.files[0]);
     console.log(setUserSelectedFile);
-    // Reset coordinates when a new file is selected
+    setColorObject({
+      c1: "red-400",
+      c2: "red-400",
+      c3: "red-400",
+      c4: "red-400",
+    })
+
+
   }
 
   async function onProcess() {
@@ -65,6 +87,7 @@ export default function BrainTumor() {
       toast.error("Please upload a file before processing ");
       return;
     } else {
+
       const response = await axios({
         method: "POST",
         url: roboURL,
@@ -82,6 +105,14 @@ export default function BrainTumor() {
         toast.info("request sent to segmentation server ");
         console.log(response.data);
         setRoboflowResponse(JSON.stringify(response.data));
+        setInference(skeleton)
+        setColorObject({
+          c1: "green-400",
+          c2: "green-400",
+          c3: "red-400",
+          c4: "red-400",
+
+        })
 
       } else {
         toast.error("something went wrong with the model");
@@ -110,6 +141,14 @@ export default function BrainTumor() {
         base64Data = base64Data.replace(/^data:image\/[a-z]+;base64,/, "");
         setLeftImage(base64Data);
         setInference(null);
+        setColorObject({
+
+          c2: "red-400",
+          c3: "red-400",
+          c4: "red-400",
+          c1: "green-400"
+
+        })
       }
     };
 
@@ -118,12 +157,23 @@ export default function BrainTumor() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-400 "  >
-      <div className="flex flex-row justify-between items-stretch py-10 px-10 space-x-20 ">
+    <div className="flex flex-col h-screen bg-gray-400 ">
+      <div className="pt-6 pl-20  bg-black">
+        <Progressbar c1={colorObject.c1} c2={colorObject.c2} c3={colorObject.c3} c4={colorObject.c4} ></Progressbar>
+      </div>
+
+
+      <div className="flex flex-row h-3/5 justify-between items-stretch py-10 px-10 space-x-20 ">
         <div className="w-1/2 flex flex-col text-center justify-center space-y-3">
           <div className="rounded-lg border-black border-4 text-xl bold font-mono font-bold bg-slate-100">
             <h1>findings</h1>
           </div>
+
+          <div>
+
+          </div>
+
+
           <div className="bg-slate-100 flex justify-center items-center py-5 h-full border-black border-4 rounded-lg">
             {!leftImage ? (
               <img className="w-96 h-96" src="https://uxwing.com/wp-content/themes/uxwing/download/file-and-folder-type/file-upload-icon.png" />
@@ -138,12 +188,13 @@ export default function BrainTumor() {
         </div>
 
         <div className="w-1/2 flex flex-col text-center justify-center space-y-3">
-          <div className="rounded-lg border-black border-4 font-mono font-bold text-xl bg-slate-100">
-            <h1>inference</h1>
+          <div className="rounded-lg border-black border-4 text-xl bold font-mono font-bold bg-slate-100">
+            <h1>diagnosis Result</h1>
           </div>
-          <div className="bg-slate- flex justify-center items-center py-5 h-full rounded-lg border-black border-4 font-mono bg-slate-100">
+          <div className="bg-slate-100 flex justify-center items-center py-5 h-full border-black border-4 rounded-lg overflow-y-scroll ">
             {inference}
           </div>
+
         </div>
       </div>
 
@@ -153,6 +204,9 @@ export default function BrainTumor() {
           type="file"
           onChange={onFileChange}
         />
+        <div>
+
+        </div>
         <Button variant={"default"} onClick={onFileUpload}> <h1 className="text-xl">Upload Image
         </h1> </Button>
         <Button variant={"default"} onClick={onProcess}><h1 className="text-xl">Process Image
@@ -162,3 +216,5 @@ export default function BrainTumor() {
     </div>
   );
 }
+
+
