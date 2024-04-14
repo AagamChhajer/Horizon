@@ -18,16 +18,16 @@ import Progressbar from "@/components/progressbar";
 import Live from "@/components/live";
 const api_key = "MDUmhShkcQTpnD7H6ZtL"
 const roboURL = "https://detect.roboflow.com/alzheimer-disease-detection-yolov5/1"
-const segmentationURL = "https://l02lxkvf-3000.inc1.devtunnels.ms/"
+const segmentationURL = "https://l02lxkvf-3000.inc1.devtunnels.ms/alzhimer"
 
 export default function BrainTumor() {
   //defining the states
   const [userSelectedFile, setUserSelectedFile] = useState(null);
   const [colorObject, setColorObject] = useState({
-    c1: "red-500",
-    c2: "red-500",
-    c3: "red-500",
-    c4: "red-500",
+    c1: "red-400",
+    c2: "red-400",
+    c3: "red-400",
+    c4: "red-400",
   })
   const [leftImage, setLeftImage] = useState<any>(null);
   const [inference, setInference] = useState<any>(" aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqui consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
@@ -143,9 +143,9 @@ export default function BrainTumor() {
         setInference(null);
         setColorObject({
           c1: "green-400",
-          c2: "red-500",
-          c3: "red-500",
-          c4: "red-500",
+          c2: "red-400",
+          c3: "red-400",
+          c4: "red-400",
 
         })
       }

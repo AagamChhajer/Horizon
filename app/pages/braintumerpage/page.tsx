@@ -7,9 +7,11 @@ import React, { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Progressbar from "@/components/progressbar";
+import PDFile from "@/components/pdfmaker";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 const api_key = "MDUmhShkcQTpnD7H6ZtL"
 const roboURL = "https://detect.roboflow.com/gojo/1"
-const segmentationURL = "https://l02lxkvf-3000.inc1.devtunnels.ms/"
+const segmentationURL = "https://l02lxkvf-3000.inc1.devtunnels.ms/brain"
 const initialColorObject = {
   c1: "red-400",
   c2: "red-400",
@@ -20,6 +22,7 @@ const initialColorObject = {
 export default function BrainTumor() {
   //defining the states
   const [userSelectedFile, setUserSelectedFile] = useState(null);
+  const [status, setStatus] = useState(false)
   const [colorObject, setColorObject] = useState(initialColorObject);
   const [leftImage, setLeftImage] = useState<any>(null);
   const [inference, setInference] = useState<any>("The diagnosis result will be displayed here after the image processing is completed. Once the analysis is done, you will see detailed findings and insights regarding the brain tumor.");
@@ -60,6 +63,7 @@ export default function BrainTumor() {
         console.log(response.data);
         setLeftImage(response.data.base64);
         setInference(response.data.inference);
+        setStatus(true);
       }
     }
 
@@ -78,6 +82,8 @@ export default function BrainTumor() {
       c3: "red-400",
       c4: "red-400",
     })
+    setStatus(false)
+
 
 
   }
@@ -211,6 +217,16 @@ export default function BrainTumor() {
         </h1> </Button>
         <Button variant={"default"} onClick={onProcess}><h1 className="text-xl">Process Image
         </h1></Button>
+
+
+
+        {status && (
+          <PDFDownloadLink document={<PDFile findings={inference} base64Data={leftImage} title="Brain Tumor Report" />} fileName="Report.pdf">
+            {({ loading }) => (loading ? <button>Loading doc</button> : <button>Download Now</button>)}
+          </PDFDownloadLink>
+        )}
+
+
 
       </div>
     </div>
