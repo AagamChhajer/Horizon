@@ -1,5 +1,6 @@
-
 "use client"
+
+import PieChartComponent from "@/components/piechart";
 import Textskeleton from "@/components/textskeleton";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
@@ -225,8 +226,6 @@ export default function BrainTumor() {
             {({ loading }) => (loading ? <button>Loading doc</button> : <button>Download Now</button>)}
           </PDFDownloadLink>
         )}
-
-
 
       </div>
     </div>

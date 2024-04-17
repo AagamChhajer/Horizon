@@ -1,14 +1,9 @@
-
-"use client"
-
-
-
-
-
-
-
 "use client"
 import Textskeleton from "@/components/textskeleton";
+import PieChartComponent from "@/components/piechart";
+import Chart, { ArcElement } from 'chart.js/auto';
+import PieChartWithPredictions from "@/components/piechart";
+Chart.register(ArcElement);
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
@@ -18,7 +13,22 @@ import Progressbar from "@/components/progressbar";
 import Live from "@/components/live";
 const api_key = "MDUmhShkcQTpnD7H6ZtL"
 const roboURL = "https://detect.roboflow.com/alzheimer-disease-detection-yolov5/1"
-const segmentationURL = "https://l02lxkvf-3000.inc1.devtunnels.ms/alzhimer"
+const segmentationURL = "https://l02lxkvf-3030.inc1.devtunnels.ms/alzhimer"
+type Prediction = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  confidence: number;
+  class: string;
+  class_id: number;
+  detection_id: string;
+};
+
+// Define a type for the entire predictions object (myobject.predictions)
+type PredictionsData = Prediction[];
+
+
 
 export default function BrainTumor() {
   //defining the states
@@ -29,8 +39,38 @@ export default function BrainTumor() {
     c3: "red-400",
     c4: "red-400",
   })
+  const [chardata, setChartData] = useState<PredictionsData>(
+    [
+      {
+        "x": 369.5,
+        "y": 440.5,
+        "width": 75,
+        "height": 97,
+        "confidence": 0.8977515697479248,
+        "class": "CN",
+        "class_id": 0,
+        "detection_id": "22045ad0-6335-42d6-a324-e7c64ab54e03"
+      },
+      // Additional predictions...
+    ]
+  )
+  const [robochartres, Setrobochartres] = useState<PredictionsData>(
+    [
+      {
+        "x": 369.5,
+        "y": 440.5,
+        "width": 75,
+        "height": 97,
+        "confidence": 0.8977515697479248,
+        "class": "CN",
+        "class_id": 0,
+        "detection_id": "22045ad0-6335-42d6-a324-e7c64ab54e03"
+      },
+      // Additional predictions...
+    ]
+  )
   const [leftImage, setLeftImage] = useState<any>(null);
-  const [inference, setInference] = useState<any>(" aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqui consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+  const [inference, setInference] = useState<any>(" The diagnosis result will be displayed here after the image processing is completed. Once the analysis is done, you will see detailed findings and insights.");
   const [roboflowResponse, setRoboflowResponse] = useState<any>(null);
   const [skeleton, setSkeleton] = useState<any>(<Textskeleton></Textskeleton>);
 
@@ -68,11 +108,12 @@ export default function BrainTumor() {
         console.log(response.data);
         setLeftImage(response.data.base64);
         setInference(response.data.inference);
+        setChartData(robochartres)
       }
     }
 
     segmentationFunction();
-  }, [roboflowResponse]);
+  }, [roboflowResponse]); 
 
   function onFileChange(event: any) {
     setUserSelectedFile(event.target.files[0]);
@@ -106,6 +147,7 @@ export default function BrainTumor() {
         console.log(response.data);
         setRoboflowResponse(JSON.stringify(response.data));
         setInference(skeleton)
+        Setrobochartres(response.data.predictions)
         setColorObject({
           c1: "green-400",
           c2: "green-400",
@@ -211,6 +253,9 @@ export default function BrainTumor() {
         <Button variant={"default"} onClick={onProcess}><h1 className="text-xl">Process Image
         </h1></Button>
 
+      </div>
+      <div className="h-96 pb-10 flex justify-center mt-3 bg-gray-400">
+        <PieChartWithPredictions predictions={chardata} />
       </div>
     </div>
   );
