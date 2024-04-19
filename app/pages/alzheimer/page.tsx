@@ -88,7 +88,7 @@ export default function BrainTumor() {
         console.log("segmentation function ran");
 
 
-
+        
         const response = await axios({
           method: "POST",
           url: segmentationURL,
@@ -101,6 +101,7 @@ export default function BrainTumor() {
             "Content-Type": "application/json",
           },
         });
+        
         setColorObject({
           c1: "green-400",
           c2: "green-400",
