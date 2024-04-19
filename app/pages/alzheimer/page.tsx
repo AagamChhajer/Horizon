@@ -2,15 +2,18 @@
 import Textskeleton from "@/components/textskeleton";
 import PieChartComponent from "@/components/piechart";
 import Chart, { ArcElement } from 'chart.js/auto';
-import PieChartWithPredictions from "@/components/piechart";
+import BarChartWithPredictions from "@/components/piechart";
 Chart.register(ArcElement);
 import { Button } from "@/components/ui/button";
+import PDFile from "@/components/pdfmaker";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Progressbar from "@/components/progressbar";
 import Live from "@/components/live";
+
 const api_key = "MDUmhShkcQTpnD7H6ZtL"
 const roboURL = "https://detect.roboflow.com/alzheimer-disease-detection-yolov5/1"
 const segmentationURL = "https://l02lxkvf-3030.inc1.devtunnels.ms/alzhimer"
@@ -33,6 +36,7 @@ type PredictionsData = Prediction[];
 export default function BrainTumor() {
   //defining the states
   const [userSelectedFile, setUserSelectedFile] = useState(null);
+  const [status, setStatus] = useState(false)
   const [colorObject, setColorObject] = useState({
     c1: "red-400",
     c2: "red-400",
@@ -107,8 +111,10 @@ export default function BrainTumor() {
 
         console.log(response.data);
         setLeftImage(response.data.base64);
+        console.log(leftImage);
         setInference(response.data.inference);
-        setChartData(robochartres)
+        setChartData(robochartres);
+        setStatus(true);
       }
     }
 
@@ -118,6 +124,7 @@ export default function BrainTumor() {
   function onFileChange(event: any) {
     setUserSelectedFile(event.target.files[0]);
     console.log(setUserSelectedFile);
+    setStatus(false)
 
 
     // Reset coordinates when a new file is selected
@@ -232,7 +239,7 @@ export default function BrainTumor() {
           <div className="rounded-lg border-black border-4 text-xl bold font-mono font-bold bg-slate-100">
             <h1>diagnosis Result</h1>
           </div>
-          <div className="bg-slate-100 flex justify-center items-center py-5 h-full border-black border-4 rounded-lg overflow-y-scroll ">
+          <div className="bg-slate-100 flex justify-center items-center  h-full border-black border-4 rounded-lg overflow-y-scroll ">
             {inference}
           </div>
 
@@ -252,10 +259,18 @@ export default function BrainTumor() {
         </h1> </Button>
         <Button variant={"default"} onClick={onProcess}><h1 className="text-xl">Process Image
         </h1></Button>
-
+        {status && (
+          <PDFDownloadLink document={<PDFile findings={inference} base64Data={leftImage} title="Brain Tumor Report" />} fileName="Report.pdf">
+            {({ loading }) => (loading ? <button>Loading doc</button> : <button>Download Now</button>)}
+          </PDFDownloadLink>
+        )}
       </div>
-      <div className="h-96 pb-10 flex justify-center mt-3 bg-gray-400">
-        <PieChartWithPredictions predictions={chardata} />
+      <div className="text-center justify-center mt-3 pt-10 border-t border-t-black bg-slate-50 border-t-4  text-4xl">
+      <h1>Analytics</h1>
+      </div>
+      <div className="h-96 pb-10 flex justify-center  pt-10 bg-slate-50 ">
+        
+        <BarChartWithPredictions predictions={chardata} />
       </div>
     </div>
   );

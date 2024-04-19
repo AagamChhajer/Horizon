@@ -1,7 +1,7 @@
 import React from 'react';
-import { Pie } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 
-// Define a type for a single prediction
+// Redefining the types based on your usage for predictions
 type Prediction = {
   x: number;
   y: number;
@@ -13,37 +13,42 @@ type Prediction = {
   detection_id: string;
 };
 
-// Define a type for the entire predictions object (myobject.predictions)
+// Definition for the list of predictions
 type PredictionsData = Prediction[];
 
+// Props for the BarChartWithPredictions component
 type Props = {
   predictions: PredictionsData;
 };
 
-const PieChartWithPredictions: React.FC<Props> = ({ predictions }) => {
+const BarChartWithPredictions: React.FC<Props> = ({ predictions }) => {
   return (
+  
     <div className='flex flex-row'>
       {predictions.map(prediction => (
         <div key={prediction.detection_id} style={{ marginRight: '20px' }}>
-          <h2>Pie Chart - Confidence: {Math.round(prediction.confidence * 100)}%</h2>
-          <Pie
+          <h2>Bar Chart - Confidence: {Math.round(prediction.confidence * 100)}%</h2>
+          <Bar
             data={{
-              labels: ['Confidence', 'Other'],
+              labels: ['Confidence'],  // Just showing confidence, no 'Other' for bars
               datasets: [
                 {
                   label: 'Confidence',
-                  data: [Math.round(prediction.confidence * 100), 100 - Math.round(prediction.confidence * 100)],
-                  backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                  ],
-                  borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                  ],
+                  data: [Math.round(prediction.confidence * 100)],
+                  backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                  borderColor: 'rgba(255, 99, 132, 1)',
                   borderWidth: 1,
                 }
               ]
+            }}
+            options={{
+              scales: {
+                y: {
+                  min: 80,     // Starting at 0 for full effect
+                  max: 100,   // 100% as maximum
+                }
+              },
+              maintainAspectRatio: false
             }}
           />
         </div>
@@ -52,4 +57,4 @@ const PieChartWithPredictions: React.FC<Props> = ({ predictions }) => {
   );
 };
 
-export default PieChartWithPredictions;
+export default BarChartWithPredictions;
