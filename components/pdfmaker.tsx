@@ -42,6 +42,14 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
     },
+    logo: {
+        width: 96,
+        height: 96,
+        alignSelf: "center",
+        borderRadius: 8,
+        marginBottom: 20,
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+    },
     contactInfo: {
         fontSize: 10,
         textAlign: "center",
@@ -60,6 +68,9 @@ const PDFile = ({ title, findings, base64Data }: { title: string, findings: stri
     <Document>
         <Page style={styles.body} size="A4">
             {/* Header */}
+            
+            <Image src="/Caduceus.svg.png"   style={styles.logo} />
+
             <Text style={styles.header}>
                 XYZ Imaging and Diagnostic Center
             </Text>

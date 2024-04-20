@@ -22,7 +22,7 @@ export function Topbar() {
     return (
 
         <div className="bg-primary flex justify-around py-4 px-20 ">
-            <a href="/"> <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-2xl text-white">
+            <a href="/"> <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-2xl text-white ">
                 RadixAI: Your Diagonosis partner
             </h1></a>
 

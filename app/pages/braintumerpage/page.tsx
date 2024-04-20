@@ -1,32 +1,81 @@
 "use client"
-
-import PieChartComponent from "@/components/piechart";
 import Textskeleton from "@/components/textskeleton";
+import PieChartComponent from "@/components/piechart";
+import Chart, { ArcElement } from 'chart.js/auto';
+import BarChartWithPredictions from "@/components/piechart";
+Chart.register(ArcElement);
 import { Button } from "@/components/ui/button";
+import PDFile from "@/components/pdfmaker";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Progressbar from "@/components/progressbar";
-import PDFile from "@/components/pdfmaker";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import Live from "@/components/live";
+
 const api_key = "MDUmhShkcQTpnD7H6ZtL"
 const roboURL = "https://detect.roboflow.com/gojo/1"
-const segmentationURL = "https://l02lxkvf-3000.inc1.devtunnels.ms/brain"
-const initialColorObject = {
-  c1: "red-400",
-  c2: "red-400",
-  c3: "red-400",
-  c4: "red-400",
+
+const segmentationURL = "https://l02lxkvf-3030.inc1.devtunnels.ms/brain"
+type Prediction = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  confidence: number;
+  class: string;
+  class_id: number;
+  detection_id: string;
 };
+
+// Define a type for the entire predictions object (myobject.predictions)
+type PredictionsData = Prediction[];
+
+
 
 export default function BrainTumor() {
   //defining the states
   const [userSelectedFile, setUserSelectedFile] = useState(null);
   const [status, setStatus] = useState(false)
-  const [colorObject, setColorObject] = useState(initialColorObject);
+  const [colorObject, setColorObject] = useState({
+    c1: "red-400",
+    c2: "red-400",
+    c3: "red-400",
+    c4: "red-400",
+  })
+  const [chardata, setChartData] = useState<PredictionsData>(
+    [
+      {
+        "x": 369.5,
+        "y": 440.5,
+        "width": 75,
+        "height": 97,
+        "confidence": 0.8977515697479248,
+        "class": "CN",
+        "class_id": 0,
+        "detection_id": "22045ad0-6335-42d6-a324-e7c64ab54e03"
+      },
+      // Additional predictions...
+    ]
+  )
+  const [robochartres, Setrobochartres] = useState<PredictionsData>(
+    [
+      {
+        "x": 369.5,
+        "y": 440.5,
+        "width": 75,
+        "height": 97,
+        "confidence": 0.8977515697479248,
+        "class": "CN",
+        "class_id": 0,
+        "detection_id": "22045ad0-6335-42d6-a324-e7c64ab54e03"
+      },
+      // Additional predictions...
+    ]
+  )
   const [leftImage, setLeftImage] = useState<any>(null);
-  const [inference, setInference] = useState<any>("The diagnosis result will be displayed here after the image processing is completed. Once the analysis is done, you will see detailed findings and insights regarding the brain tumor.");
+  const [inference, setInference] = useState<any>(" The diagnosis result will be displayed here after the image processing is completed. Once the analysis is done, you will see detailed findings and insights.");
   const [roboflowResponse, setRoboflowResponse] = useState<any>(null);
   const [skeleton, setSkeleton] = useState<any>(<Textskeleton></Textskeleton>);
 
@@ -38,15 +87,12 @@ export default function BrainTumor() {
         );
       } else {
         console.log("segmentation function ran");
-
-
-
         const response = await axios({
           method: "POST",
           url: segmentationURL,
           data: {
             base64: leftImage,
-            disease: "Brain Tumor",
+            disease: "Brain Tumer",
             predictions: roboflowResponse,
           },
           headers: {
@@ -63,7 +109,10 @@ export default function BrainTumor() {
 
         console.log(response.data);
         setLeftImage(response.data.base64);
-        setInference(response.data.inference);
+        console.log(leftImage);
+        setInference(response.data.inference.replace(/\$\$/g, "\n"));
+
+        setChartData(robochartres);
         setStatus(true);
       }
     }
@@ -71,21 +120,17 @@ export default function BrainTumor() {
     segmentationFunction();
   }, [roboflowResponse]);
 
-
-
-
   function onFileChange(event: any) {
     setUserSelectedFile(event.target.files[0]);
     console.log(setUserSelectedFile);
-    setColorObject({
-      c1: "red-400",
-      c2: "red-400",
-      c3: "red-400",
-      c4: "red-400",
-    })
     setStatus(false)
 
 
+    // Reset coordinates when a new file is selected
+  }
+  function speakdisease() {
+    const value = new SpeechSynthesisUtterance(inference);
+    window.speechSynthesis.speak(value);
 
   }
 
@@ -113,11 +158,12 @@ export default function BrainTumor() {
         console.log(response.data);
         setRoboflowResponse(JSON.stringify(response.data));
         setInference(skeleton)
+        Setrobochartres(response.data.predictions)
         setColorObject({
           c1: "green-400",
           c2: "green-400",
-          c3: "red-400",
-          c4: "red-400",
+          c3: "red-500",
+          c4: "red-500",
 
         })
 
@@ -149,11 +195,10 @@ export default function BrainTumor() {
         setLeftImage(base64Data);
         setInference(null);
         setColorObject({
-
+          c1: "green-400",
           c2: "red-400",
           c3: "red-400",
           c4: "red-400",
-          c1: "green-400"
 
         })
       }
@@ -164,15 +209,15 @@ export default function BrainTumor() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-400 ">
-      <div className="pt-6 pl-20  bg-black">
+    <div className="flex flex-col h-screen bg-gray-200 ">
+      <div className="pt-6 pl-20  bg-black ">
         <Progressbar c1={colorObject.c1} c2={colorObject.c2} c3={colorObject.c3} c4={colorObject.c4} ></Progressbar>
       </div>
 
 
       <div className="flex flex-row h-3/5 justify-between items-stretch py-10 px-10 space-x-20 ">
         <div className="w-1/2 flex flex-col text-center justify-center space-y-3">
-          <div className="rounded-lg border-black border-4 text-xl bold font-mono font-bold bg-slate-100">
+          <div className="rounded-lg shadow-black shadow-2xl text-xl bold font-mono font-bold bg-white">
             <h1>findings</h1>
           </div>
 
@@ -181,7 +226,7 @@ export default function BrainTumor() {
           </div>
 
 
-          <div className="bg-slate-100 flex justify-center items-center py-5 h-full border-black border-4 rounded-lg">
+          <div className="bg-white flex justify-center items-center py-5 h-full shadow-2xl rounded-lg">
             {!leftImage ? (
               <img className="w-96 h-96" src="https://uxwing.com/wp-content/themes/uxwing/download/file-and-folder-type/file-upload-icon.png" />
             ) : (
@@ -195,10 +240,10 @@ export default function BrainTumor() {
         </div>
 
         <div className="w-1/2 flex flex-col text-center justify-center space-y-3">
-          <div className="rounded-lg border-black border-4 text-xl bold font-mono font-bold bg-slate-100">
+          <div className="rounded-lg text-xl bold font-mono shadow-2xl  font-bold bg-white">
             <h1>diagnosis Result</h1>
           </div>
-          <div className="bg-slate-100 flex justify-center items-center py-5 h-full border-black border-4 rounded-lg overflow-y-scroll ">
+          <div className="bg-white shadow-2xl flex h-screen  rounded-lg overflow-scroll">
             {inference}
           </div>
 
@@ -207,7 +252,7 @@ export default function BrainTumor() {
 
       <div className="flex flex-row space-y-4 justify-around">
         <input
-          className="bg-slate-950 text-white w-30 px-4 py-2 rounded mx-4"
+          className="bg-black  text-white w-30 px-4 py-2 rounded mx-4"
           type="file"
           onChange={onFileChange}
         />
@@ -218,18 +263,27 @@ export default function BrainTumor() {
         </h1> </Button>
         <Button variant={"default"} onClick={onProcess}><h1 className="text-xl">Process Image
         </h1></Button>
-
-
-
         {status && (
-          <PDFDownloadLink document={<PDFile findings={inference} base64Data={leftImage} title="Brain Tumor Report" />} fileName="Report.pdf">
-            {({ loading }) => (loading ? <button>Loading doc</button> : <button>Download Now</button>)}
-          </PDFDownloadLink>
-        )}
+          <div className="flex gap-x-4">
+            <PDFDownloadLink document={<PDFile findings={inference} base64Data={leftImage} title="Brain Tumor Report" />} fileName="Report.pdf">
+              {({ loading }) => (loading ? <button>Loading doc</button> : <button className="bg-blue-800 pt-3 px-3 flex justify-center items-center  text-xl text-white rounded-lg">Download Now</button>)}
+            </PDFDownloadLink>
 
+            <Button variant={"default"} onClick={speakdisease}> <h1 className="text-xl">Narrate the result
+            </h1> </Button>
+
+          </div>
+
+        )}
       </div>
+      <div className="text-center justify-center mt-3 pt-10  border-t-black bg-slate-50 border-t-4  text-4xl">
+        <h1>Analytics Desk</h1>
+      </div>
+      <div className="h-96 pb-10 flex justify-center  pt-10 bg-slate-50 ">
+
+        <BarChartWithPredictions predictions={chardata} />
+      </div>
+      
     </div>
   );
 }
-
-
