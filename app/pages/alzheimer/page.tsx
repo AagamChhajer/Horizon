@@ -14,9 +14,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Progressbar from "@/components/progressbar";
 import Live from "@/components/live";
 
-const api_key = "MDUmhShkcQTpnD7H6ZtL"
+const api_key = "Your API KEY"
 // const roboURL = "https://detect.roboflow.com/mri-detection-synapse/1"
-const roboURL = "https://detect.roboflow.com/alzheimer-disease-detection-yolov5/1"
+const URL = "yourmodelurl.com"
 
 const segmentationURL = "https://l02lxkvf-3030.inc1.devtunnels.ms/alzhimer"
 type Prediction = {
