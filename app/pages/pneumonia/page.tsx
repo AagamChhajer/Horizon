@@ -14,11 +14,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import Progressbar from "@/components/progressbar";
 import Live from "@/components/live";
 
-const api_key = "Your API KEY"
-// const roboURL = "https://detect.roboflow.com/mri-detection-synapse/1"
-const URL = "yourmodelurl.com"
+const api_key = "AlB5R5roPsIq7w9IL0ip"
+const roboURL = "https://detect.roboflow.com/pneumonia-f726d/1"
+// const URL = "yourmodelurl.com"
 
-const segmentationURL = "https://l02lxkvf-3030.inc1.devtunnels.ms/alzhimer"
+const segmentationURL = "http://127.0.0.1:3002"
 type Prediction = {
   x: number;
   y: number;
@@ -93,8 +93,11 @@ export default function BrainTumor() {
           url: segmentationURL,
           data: {
             base64: leftImage,
-            disease: "alzheimer",
+            disease: "Pneumonia",
             predictions: roboflowResponse,
+            city : "Kolkata",
+            date : '1/15/1900',
+            disease_id : 1
           },
           headers: {
             "Content-Type": "application/json",

@@ -23,7 +23,7 @@ export function Topbar() {
 
         <div className="bg-primary flex justify-around py-4 px-20 ">
             <a href="/"> <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-2xl text-white ">
-                RadixAI: Your Diagonosis partner
+                Horizon Ai: Your Diagonosis partner
             </h1></a>
 
             <NavigationMenu>
@@ -33,13 +33,18 @@ export function Topbar() {
                         <NavigationMenuContent>
                             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
 
-                                <ListItem href="/pages/braintumerpage" title="Brain Tumer">
-                                    Detect Brain Tumer with LLMS and Yolov8 Model
+                                <ListItem href="/pages/tuberculosis" title="Tuberculosis">
+                                    Detect Tuberculosis with LLMS and Yolov8 Model
                                 </ListItem>
-                                <ListItem href="/pages/alzheimer" title="Alzheimer">
-                                    Detect Alzheimer with LLMS and Yolov8 Model.
+                                <ListItem href="/pages/pneumonia" title="Pneumonia">
+                                    Detect Pneumonia with LLMS and Yolov8 Model.
                                 </ListItem>
-
+                                <ListItem href="/pages/horizon" title="Horizon">
+                                    
+                                </ListItem>
+                                <ListItem href="/pages/correlate" title="Correlation">
+                                    
+                                </ListItem>
                             </ul>
                         </NavigationMenuContent>
                     </NavigationMenuItem>

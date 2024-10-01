@@ -72,19 +72,19 @@ const PDFile = ({ title, findings, base64Data }: { title: string, findings: stri
             <Image src="/Caduceus.svg.png"   style={styles.logo} />
 
             <Text style={styles.header}>
-                XYZ Imaging and Diagnostic Center
+                HOTSPURS CLINIC
             </Text>
 
             {/* Patient Information */}
             <View style={styles.section}>
                 <Text style={styles.text}>
-                    Patient Name: Rakesh Kanneeswaran
+                    Patient Name: Aagam Chhajer
                 </Text>
                 <Text style={styles.text}>
                     Patient Address: 123 Fake St, City, State, ZIP
                 </Text>
                 <Text style={styles.text}>
-                    Patient Phone: (123) 456-7890
+                    Patient Phone: (91) 876456-7890
                 </Text>
                 <Text style={styles.text}>
                     Patient Email: info@example.com

@@ -26,10 +26,9 @@ const Hero = () => (<div className="relative pt-16 pb-32 flex content-center ite
       <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
         <div className="pr-1">
           <h1 className="text-white font-semibold text-5xl">
-          Revolutionizing Radiology with  AI and ML
               </h1>
           <p className="mt-4 text-lg text-gray-300">
-          RadixAI revolutionizes radiology with cloud-deployed ML models for precise anomaly prediction in medical images. Seamlessly integrating Flask, OpenCV, React UI, and Language Model analysis, it enhances diagnostic accuracy and workflow efficiency for healthcare professionals
+          Horizon Ai revolutionizes radiology with cloud-deployed ML models for precise anomaly prediction in medical images. Seamlessly integrating Flask, OpenCV, React UI, and Language Model analysis, it enhances diagnostic accuracy and workflow efficiency for healthcare professionals
               </p>
         </div>
       </div>
@@ -68,7 +67,7 @@ const Services = () => <section className="pb-20 bg-gray-300 -mt-24">
             </div>
             <h6 className="text-xl font-semibold">Training</h6>
             <p className="mt-2 mb-4 text-gray-600">
-            RadixAI harnesses the power of an extensive dataset, training with over 10,000 images to deliver unparalleled accuracy in anomaly prediction for radiology.
+             Horizon harnesses the power of an extensive dataset, training with over 5000 images to deliver unparalleled accuracy in anomaly prediction for radiology
               </p>
           </div>
         </div>
@@ -84,7 +83,7 @@ const Services = () => <section className="pb-20 bg-gray-300 -mt-24">
               Accuracy and Precision
               </h6>
             <p className="mt-2 mb-4 text-gray-600">
-            RadixAI attains exceptional performance metrics, boasting a remarkable 97.7% accuracy and an impressive 98.1% precision in anomaly prediction, setting a new standard in radiology diagnostics."
+            Horizon attains exceptional performance metrics, boasting a remarkable 97.7% accuracy and an impressive 98.1% precision in anomaly prediction, setting a new standard in radiology diagnostics
               </p>
           </div>
         </div>
@@ -100,7 +99,7 @@ const Services = () => <section className="pb-20 bg-gray-300 -mt-24">
             Models
               </h6>
             <p className="mt-2 mb-4 text-gray-600">
-            We Offer Two Specialized Models for Alzheimer's and Brain Tumors Detection
+            We Offer Two Specialized Models for Pneumonia's and Tuberculosis Detection
               </p>
           </div>
         </div>
